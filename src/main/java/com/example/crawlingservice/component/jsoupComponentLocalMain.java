@@ -42,7 +42,7 @@ public class jsoupComponentLocalMain {
 
         List<String> menuList = new ArrayList<>();
         List<Integer> idList = new ArrayList<>();
-        Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+        Map<Integer, String> map = new LinkedHashMap<Integer, String>();//ID-대표메뉴 저장
 
         Elements menu = document.select("#menu-result > div.menu");
         for (Element element : menu) {
