@@ -1,5 +1,6 @@
 package com.example.crawlingservice.component;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -7,8 +8,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class jsoupComponentLocalMain {
     public static void getInfo() {
@@ -21,54 +21,47 @@ public class jsoupComponentLocalMain {
 
             System.out.println(restaurant);
             System.out.println(menu);
+
         } catch (IOException ignored) {
         }
     }
 
     public static String getRestName(Document document) {
         Elements restName = document.select(".nav-link");
-        StringBuilder sb = new StringBuilder(); //문자열을 효율적으로 처리하는 데 사용되는 클래스 / 작업을 빠르게 처리
-        List<String> list = new ArrayList<>();
+
+        List<String> restList = new ArrayList<>();
         for (Element element : restName) {
             String text = element.text();
-            Boolean 식당 = text.endsWith("식당") ? list.add(text) : null;
-            sb.append(text.endsWith("식당") ? text : "");
-            sb.append(" ");
-            //System.out.println(element.text());
+            Boolean rest = text.endsWith("식당") ? restList.add(text) : null;
         }
-        System.out.println("list = " + list);
-        return sb.toString();
+       //System.out.println("list = " + restList);
+        return restList.toString();
     }
-//table tbody tr td div
+
     public static String getmenu(Document document) {
+
+        List<String> menuList = new ArrayList<>();
+        List<Integer> idList = new ArrayList<>();
+        Map<Integer, String> map = new LinkedHashMap<Integer, String>();
+
         Elements menu = document.select("#menu-result > div.menu");
         for (Element element : menu) {
-            Elements div = element.getElementsByClass("card-header");
-            System.out.println("data-table = " + element.attr("data-table"));
-            System.out.println("div = " + div);
-            //if (div == null) {
-              //  System.out.println("1231123123123123 = ");
-            //}
+            Elements header = element.getElementsByClass("card-header");
+            String 메뉴 = header.text();
+            menuList.add(메뉴);
 
+            String table = element.attr("data-table");
+            String word = table.replaceAll("-","");//-제거
+            String id = word.substring(word.length()-3, word.length());//끝에 3글자 추출
+            idList.add(Integer.valueOf(id));
+
+
+            map.put(Integer.valueOf(id),메뉴);
         }
-        //System.out.println("menu = " + menu);
-
-        //Integer count = 0;
-
-        StringBuilder sb = new StringBuilder();
-        List<String> menuList = new ArrayList<>();
-        for (Element element : menu) {
-            String text = element.text();
-            sb.append(text);
-            menuList.add(text);
-            //sb.append(!text.contains("미운영") ? text : "");
-            sb.append(" ");
-            //System.out.println(element.text());
-        }
-//        System.out.println("menuList = " + menuList);
-        return sb.toString();
-//        //System.out.println();
+        return map.toString();
     }
+
+
 
     public static void main(String[] args){
         getInfo();
