@@ -22,32 +22,16 @@ public class JsoupComponentLocal {
 
         try {
             Document doc = Jsoup.connect(URL).get();
-            String restaurant = getRestName(doc);   //식당 이름 정보 조회
             String menu = getmenu(doc); //메인 메뉴 이름 정보 조회
 
-            System.out.println(restaurant);
             System.out.println(menu);
 
         } catch (IOException ignored) {
         }
     }
 
-    public static String getRestName(Document document) {
-        Elements restName = document.select(".nav-link");
-
-        List<String> restList = new ArrayList<>();
-        for (Element element : restName) {
-            String text = element.text();
-            Boolean rest = text.endsWith("식당") ? restList.add(text) : null;
-        }
-        //System.out.println("list = " + restList);
-        return restList.toString();
-    }
-
     public String getmenu(Document document) {
 
-        List<String> menuList = new ArrayList<>();
-        List<Integer> idList = new ArrayList<>();
         Map<Integer, String> map = new LinkedHashMap<Integer, String>();//ID-대표메뉴 저장
 
         Elements menu = document.select("#menu-result > div.menu");
@@ -56,13 +40,11 @@ public class JsoupComponentLocal {
 
             Elements header = element.getElementsByClass("card-header");
             String food = header.text();
-            menuList.add(food);
-
 
             String table = element.attr("data-table");
             String word = table.replaceAll("-", "");//-제거
             String id = word.substring(word.length() - 3, word.length());//끝에 3글자 추출
-            idList.add(Integer.valueOf(id));
+
             map.put(Integer.valueOf(id), food);
 
             foodObject.setMenu(food);   //디비에 저장
@@ -120,11 +102,6 @@ public class JsoupComponentLocal {
         }
 
         foodService.save(food);
-
-        /*food.setRest("은하수");
-        food.setTime("저녁");
-        food.setMenu("돈갈비");
-        food.setDate("금");*/
 
         return food;
     }
