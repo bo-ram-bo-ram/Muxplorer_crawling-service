@@ -1,17 +1,18 @@
 package com.example.crawlingservice.service;
 
 import com.example.crawlingservice.DB.Food;
+import com.example.crawlingservice.dto.FoodDto;
 import com.example.crawlingservice.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
-@RequiredArgsConstructor
-public class FoodService {
+import java.util.List;
 
-    private final FoodRepository foodRepository;
+public interface FoodService {
 
-    public void save(Food food){
-        foodRepository.save(food);
-    }
+
+    void save();
+    List<Food> findAllFoods();
+    FoodDto findFoodById(Long id);
+    void deleteFoodAll();
 }
