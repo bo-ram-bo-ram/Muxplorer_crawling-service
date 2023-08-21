@@ -11,6 +11,5 @@ import java.util.Optional;
 public interface FoodRepository extends JpaRepository<Food,String> {
     List<Food> findAll();
     Optional<Food> findById(Long id);
-
     void deleteAll();
 }

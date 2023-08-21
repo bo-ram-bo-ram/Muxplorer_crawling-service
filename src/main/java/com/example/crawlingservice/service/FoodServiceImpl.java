@@ -7,8 +7,10 @@ import com.example.crawlingservice.exception.NotFoundFoodByIdException;
 import com.example.crawlingservice.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class FoodServiceImpl implements FoodService{
@@ -23,9 +25,13 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public List<Food> findAllFoods() {
-        return foodRepository.findAll();
-    }
+    public List<FoodDto> findAllFoods() {
+        List<Food> foods = foodRepository.findAll();
+
+        return foods.stream()
+                .map(food -> new FoodDto(food.getId(), food.getTime(), food.getRest(), food.getMenu(), food.getDate()))
+                .collect(Collectors.toList());
+    }   //fooddto 반환으로 바꿈 . 리스트를 쓸 땐 stream 쓰는게 좋음
 
     @Override
     public FoodDto findFoodById(Long id) {
@@ -37,8 +43,8 @@ public class FoodServiceImpl implements FoodService{
         foodDto.setId(food.getId());
         foodDto.setTime(food.getTime());
         foodDto.setRest(food.getRest());
-        food.setMenu(food.getMenu());
-        food.setDate(food.getDate());
+        foodDto.setMenu(food.getMenu());
+        foodDto.setDate(food.getDate());
         return foodDto;
     }
 

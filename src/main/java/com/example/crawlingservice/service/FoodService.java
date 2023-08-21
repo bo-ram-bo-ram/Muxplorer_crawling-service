@@ -12,7 +12,7 @@ public interface FoodService {
 
 
     void save();
-    List<Food> findAllFoods();
+    List<FoodDto> findAllFoods();
     FoodDto findFoodById(Long id);
     void deleteFoodAll();
 }
