@@ -20,4 +20,5 @@ public class Food {
     private String time;
     private String menu;
     private String date;
+    private String day;
 }

@@ -3,6 +3,7 @@ package com.example.crawlingservice.service;
 import com.example.crawlingservice.DB.Food;
 import com.example.crawlingservice.component.JsoupComponentLocal;
 import com.example.crawlingservice.dto.FoodDto;
+import com.example.crawlingservice.dto.ReviewDto;
 import com.example.crawlingservice.exception.NotFoundFoodByIdException;
 import com.example.crawlingservice.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class FoodServiceImpl implements FoodService{
         List<Food> foods = foodRepository.findAll();
 
         return foods.stream()
-                .map(food -> new FoodDto(food.getId(), food.getTime(), food.getRest(), food.getMenu(), food.getDate()))
+                .map(food -> new FoodDto(food.getId(), food.getTime(), food.getRest(), food.getMenu(), food.getDate(), food.getDay()))
                 .collect(Collectors.toList());
     }   //fooddto 반환으로 바꿈 . 리스트를 쓸 땐 stream 쓰는게 좋음
 
@@ -51,5 +52,12 @@ public class FoodServiceImpl implements FoodService{
     @Override
     public void deleteFoodAll() {
         foodRepository.deleteAll();
+    }
+
+    @Override
+    public List<ReviewDto> getReviewInfo() {
+        List<Food> foodList = foodRepository.findAll();
+        return foodList.stream().map(food -> new ReviewDto(food.getRest()+"식당", food.getMenu()))
+                .collect(Collectors.toList());
     }
 }

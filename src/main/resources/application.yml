@@ -1,13 +1,20 @@
 spring:
-    datasource:
-        driver-class-name: com.mysql.cj.jdbc.Driver
-        username: root
-        url: jdbc:mysql://localhost:3305/rest
-        password: '1234'
-    jpa:
-        properties:
-            hibernate:
-                format_sql: 'true'
-        show-sql: 'true'
-        hibernate:
-            ddl-auto: create
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://muxplorer-db.mysql.database.azure.com:3306/crawlingservicedb?characterEncoding=UTF-8
+    username: muxplorer
+    password: 1q2w3e4r5t6y!
+#    url: jdbc:mysql://localhost:3305/rest
+#    username: root
+#    password: 1234
+  rabbitmq:
+    host: 220.125.53.144
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh,health, beans, busrefresh, info

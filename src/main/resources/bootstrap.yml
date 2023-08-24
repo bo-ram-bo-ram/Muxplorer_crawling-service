@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    config:
+      uri: http://220.125.53.144:8888
+      name: crawling-service
