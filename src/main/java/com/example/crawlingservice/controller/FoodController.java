@@ -1,11 +1,8 @@
 package com.example.crawlingservice.controller;
 
-import com.example.crawlingservice.DB.Food;
 import com.example.crawlingservice.dto.FoodDto;
-import com.example.crawlingservice.dto.ReviewDto;
 import com.example.crawlingservice.service.FoodService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,11 +34,6 @@ public class FoodController {
         return ResponseEntity.status(HttpStatus.OK).body(food);
     }
 
-    @GetMapping("/get/review-info")
-    public ResponseEntity<?> getReviewInfo(){
-        List<ReviewDto> reviewInfo = foodService.getReviewInfo();
-        return ResponseEntity.status(HttpStatus.OK).body(reviewInfo);
-    }
     @DeleteMapping("/delete/food-list")
     public ResponseEntity<?> deleteFood() {
         foodService.deleteFoodAll();

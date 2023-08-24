@@ -1,5 +1,6 @@
 package com.example.crawlingservice.config;
 
+import com.example.crawlingservice.client.ReviewServiceClient;
 import com.example.crawlingservice.component.JsoupComponentLocal;
 import com.example.crawlingservice.repository.FoodRepository;
 import com.example.crawlingservice.service.FoodService;
@@ -12,10 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class AppConfig {
 
+    private final ReviewServiceClient reviewServiceClient;
     private final FoodRepository foodRepository;
     private final JsoupComponentLocal jsoupComponentLocal;
     @Bean
     public FoodService foodService() {
-        return new FoodServiceImpl(foodRepository, jsoupComponentLocal);
+        return new FoodServiceImpl(reviewServiceClient, foodRepository, jsoupComponentLocal);
     }
 }

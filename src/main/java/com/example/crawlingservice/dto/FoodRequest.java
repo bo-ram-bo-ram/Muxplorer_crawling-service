@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewDto {
+public class FoodRequest {
     private String restaurant; //
     private String name; //
 }
