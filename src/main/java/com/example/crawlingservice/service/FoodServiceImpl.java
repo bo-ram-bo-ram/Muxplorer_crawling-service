@@ -10,6 +10,7 @@ import com.example.crawlingservice.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +23,11 @@ public class FoodServiceImpl implements FoodService{
     //private final CircuitBreakerFactory circuitBreakerFactory;
     private final FoodRepository foodRepository;
     private final JsoupComponentLocal local;
+    @Transactional
     @Override
     public void save() {
         List<Food> info = local.getInfo();
+        deleteFoodAll();
         foodRepository.saveAll(info);
 
         List<FoodRequest> reviewDtoList = info.stream().map(food -> new FoodRequest(food.getRest() + "식당", food.getMenu()))

@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface FoodService {
 
-
     void save();
     List<FoodDto> findAllFoods();
     FoodDto findFoodById(Long id);
     void deleteFoodAll();
+
 
 }
